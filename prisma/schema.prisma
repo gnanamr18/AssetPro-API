@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  working
+  resigned
+  obsolete
+}
+
+model Employee {
+  id           Int      @id @default(autoincrement()) // Auto-increment primary key
+  uniqueId     String   @unique       // Globally unique identifier
+  name         String                                   // Employee name
+  deptId       Int                                      // Foreign key to Dept
+  designation  String                                   // Employee designation
+  status       Status   @default(working)               // Employment status (default: working)
+  createdAt    DateTime @default(now())                 // Creation timestamp
+  updatedAt    DateTime @updatedAt                      // Last update timestamp
+
+  dept         Dept     @relation("EmployeeDept",fields: [deptId], references: [id]) // Relation to Dept
+  assets       Asset[]  @relation("EmployeeAssets")     // One-to-many relationship with Asset
+}
+
+model Asset {
+  id           Int      @id @default(autoincrement())  // Auto-increment primary key
+  uniqueId     String   @unique                       // Globally unique identifier
+  name         String                                   // Asset name
+  deptId       Int                                      // Foreign key to Dept
+  status       Status   @default(working)               // Asset status
+  createdAt    DateTime @default(now())                 // Creation timestamp
+  updatedAt    DateTime @updatedAt                     // Last update timestamp
+
+  employeeId   Int?                                      // Foreign key to Employee (nullable)
+  employee     Employee? @relation("EmployeeAssets", fields: [employeeId], references: [id]) // Relation to Employee
+  dept         Dept     @relation("AssetDept",fields: [deptId], references: [id]) // Relation to Dept
+}
+
+model Dept {
+  id           Int      @id @default(autoincrement())  // Auto-increment primary key
+  dept         String                                   // Department name
+  symbol       String   @unique                                // Department symbol
+
+  employees    Employee[] @relation("EmployeeDept")     // One-to-many relationship with Employee
+  assets       Asset[]    @relation("AssetDept")        // One-to-many relationship with Asset
+}
+
+ 
+

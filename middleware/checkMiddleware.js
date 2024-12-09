@@ -1,20 +1,14 @@
-import prisma from "../db/prisma.js"
+import prisma from "../db/prisma.js";
 
 const checkDeptExists = async (req, res, next) => {
-  const { symbol } = req.body || req.params;
-
+  const symbol = req.body?.symbol || req.params?.symbol;
   try {
-    const dept = await prisma.dept.findUnique({
+    const dept = await prisma.dept.findFirst({
       where: { symbol },
     });
-
     if (dept) {
-      return res.status(400).json({
-        message: "Dept already exists",
-      });
+      next();
     }
-
-    next();
   } catch (error) {
     return res.status(500).json({
       message: "Error checking department existence",
@@ -24,21 +18,22 @@ const checkDeptExists = async (req, res, next) => {
 };
 
 const checkEmployeeExists = async (req, res, next) => {
-  const { uniqueId } = req.body || req.params;
-
+  const uniqueId = req.body?.uniqueId || req.params?.uniqueId;
+  
   try {
-    // Check if the employee with the given uniqueId exists
     const employee = await prisma.employee.findUnique({
       where: { uniqueId },
     });
+
+    console.log(employee, "employee");
 
     if (employee) {
       return res.status(400).json({
         message: "Employee already exists",
       });
+    } else {
+      next(); // Proceed if employee does not exist
     }
-
-    next();
   } catch (error) {
     return res.status(500).json({
       message: "Error checking employee existence",
@@ -46,6 +41,7 @@ const checkEmployeeExists = async (req, res, next) => {
     });
   }
 };
+
 
 const checkAssetExits = async (req, res, next) => {
   const { uniqueId } = req.body || req.params;
@@ -71,5 +67,4 @@ const checkAssetExits = async (req, res, next) => {
   }
 };
 
-
-export{ checkDeptExists,checkEmployeeExists, checkAssetExits };
+export { checkDeptExists, checkEmployeeExists, checkAssetExits };

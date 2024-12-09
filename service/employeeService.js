@@ -1,17 +1,35 @@
 import prisma from "../db/prisma.js";
 
-const addEmployee = async (uniqueId,name,designation,status,deptId) => {
+const addEmployee = async (uniqueId, name, designation, status, deptId, req, res, next) => {
   try {
+    // Check if the department exists
+    const dept = await prisma.dept.findUnique({
+      where: { id: deptId }
+    });
+    if (!dept) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    // Create a new employee
     const newEmployee = await prisma.employee.create({
       data: {
-        uniqueId,name,designation,status,deptId
+        uniqueId,
+        name,
+        designation,
+        status,
+        deptId
       },
     });
-    return newEmployee;
+
+    console.log(newEmployee,"newEmployee"); // Log the newly created employee
+    return res.status(201).json(newEmployee); // Return the created employee
+
   } catch (error) {
-    res.status(500).json(error.message);
+    console.error(error);
+    return res.status(500).json({ message: "Error adding employee", error: error.message });
   }
 };
+
 
 // Service to get department details by name
 const getDeptByName = async (deptName) => {

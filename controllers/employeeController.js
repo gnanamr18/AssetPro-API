@@ -1,16 +1,9 @@
-import {getDeptByName,resignEmployeeByUniqueId} from "../service/employeeService.js"
+import {addEmployee,getDeptByName,resignEmployeeByUniqueId} from "../service/employeeService.js"
 
 const createEmployee = async (req, res) => {
     try {
-      const {uniqueId,name,designation,dept,status} = req.body;
-
-      const department = await getDeptByName(dept);
-        if (!department) {
-            return res.status(404).json({ message: "Department not found" });
-        }
-  
-  
-      const newEmployee = await addEmployee(uniqueId,name,designation,status,department.id);
+      const {uniqueId,name,designation,deptId,status} = req.body;  
+      const newEmployee = await addEmployee(uniqueId,name,designation,status,deptId);
   
       res.status(201).json(newEmployee);
     } catch (error) {

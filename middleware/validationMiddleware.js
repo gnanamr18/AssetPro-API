@@ -21,29 +21,11 @@ const deptValidation = (req, res, next) => {
 
   const employeeValidation = (req, res, next) => {
       const schema = Joi.object({
-          uniqueId: Joi.string().required().messages({
-              "any.required": "Unique ID is required.",
-              "string.empty": "Unique ID cannot be empty.",
-          }),
-          name: Joi.string().required().messages({
-              "any.required": "Name is required.",
-              "string.empty": "Name cannot be empty.",
-          }),
-          deptId: Joi.number().integer().required().messages({
-              "any.required": "Department ID is required.",
-              "number.base": "Department ID must be a number.",
-              "number.integer": "Department ID must be an integer.",
-          }),
-          designation: Joi.string().required().messages({
-              "any.required": "Designation is required.",
-              "string.empty": "Designation cannot be empty.",
-          }),
-          status: Joi.string()
-              .valid("working", "resigned", "obsolete")
-              .default("working")
-              .messages({
-                  "any.only": "Status must be one of: working, resigned, obsolete.",
-              }),
+          uniqueId: Joi.string().required(),
+          name: Joi.string().required(),
+          deptId: Joi.number().integer().required(),
+          designation: Joi.string().required(),
+          status: Joi.string().valid("working", "resigned", "obsolete").default("working")      
       });
   
       const { error } = schema.validate(req.body);

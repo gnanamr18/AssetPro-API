@@ -28,15 +28,23 @@ const makeDeleteDept = async (symbol) => {
   }
 };
 
-const makeFindAsset = async () => {
+const makeGetDept = async (req,res) => {
+  try {
+    const dept = await prisma.dept.findMany();
+    console.log(dept,"dept")
+  return dept
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+const makeFindAsset = async (req,res,next,symbol) => {
   try {
     const asset = await prisma.asset.findMany({
       where: { symbol },
   });
-  return res.status(200).json({
-    message: "Assets found successfully",
-    data: asset,
-});
+  console.log(asset,"asset")
+  return asset
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -56,4 +64,4 @@ const makeFindEmployee = async () => {
   }
 };
 
-export{makeAddDept,makeDeleteDept, makeFindAsset, makeFindEmployee}
+export{makeAddDept,makeDeleteDept, makeFindAsset, makeFindEmployee , makeGetDept}

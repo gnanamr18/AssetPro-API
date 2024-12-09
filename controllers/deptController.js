@@ -1,4 +1,4 @@
-import { makeAddDept, makeDeleteDept ,makeFindAsset,makeFindEmployee } from "../service/deptService.js";
+import { makeAddDept, makeDeleteDept ,makeFindAsset,makeFindEmployee, makeGetDept } from "../service/deptService.js";
 
 const createDept = async (req, res) => {
   try {
@@ -25,14 +25,26 @@ const deleteDept = async (req, res) => {
   }
 };
 
+const getDept = async (req, res) => {
+  try {
+
+    const Dept = await makeGetDept();
+
+    res.status(200).json(Dept);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const findAsset = async (req, res) => {
   try {
     const { symbol } = req.params;
+    const assets = await makeFindAsset(symbol);
 
-    const asset = await makeFindAsset(symbol);
-
-    res.status(201).json(asset);
-  } catch (error) {
+    res.status(200).json({
+      message: "Assets found successfully",
+      data: assets,
+    });  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
@@ -50,4 +62,4 @@ const findEmployee = async (req, res) => {
 };
 
 
-export { createDept, deleteDept, findAsset,findEmployee };
+export { createDept, deleteDept, findAsset,findEmployee,getDept };

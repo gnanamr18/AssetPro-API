@@ -26,5 +26,7 @@ const createAsset = async (req, res) => {
     }
   };
 
+ 
+
 
   export{createAsset, scrapAsset}

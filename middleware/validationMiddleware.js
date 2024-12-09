@@ -44,12 +44,6 @@ const deptValidation = (req, res, next) => {
               .messages({
                   "any.only": "Status must be one of: working, resigned, obsolete.",
               }),
-          createdAt: Joi.date().optional().messages({
-              "date.base": "Created At must be a valid date.",
-          }),
-          updatedAt: Joi.date().optional().messages({
-              "date.base": "Updated At must be a valid date.",
-          }),
       });
   
       const { error } = schema.validate(req.body);
@@ -63,9 +57,28 @@ const deptValidation = (req, res, next) => {
       next();
   };
   
-  
+  const assetValidation = (req, res, next) => {
+    const schema = Joi.object({
+        uniqueId: Joi.string().required(),
+        name: Joi.string().required(),
+        deptId: Joi.number().integer().required(),
+        status: Joi.string()
+            .valid("working", "resigned", "obsolete")
+            .default("working"),
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+
+    next();
+};
   
 
   export {
-    deptValidation,employeeValidation
+    deptValidation,employeeValidation, assetValidation
   };

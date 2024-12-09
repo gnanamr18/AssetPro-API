@@ -47,5 +47,29 @@ const checkEmployeeExists = async (req, res, next) => {
   }
 };
 
+const checkAssetExits = async (req, res, next) => {
+  const { uniqueId } = req.body || req.params;
 
-export{ checkDeptExists,checkEmployeeExists };
+  try {
+    // Check if the employee with the given uniqueId exists
+    const asset = await prisma.asset.findUnique({
+      where: { uniqueId },
+    });
+
+    if (asset) {
+      return res.status(400).json({
+        message: "Asset already exists",
+      });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error checking asset existence",
+      error: error.message,
+    });
+  }
+};
+
+
+export{ checkDeptExists,checkEmployeeExists, checkAssetExits };

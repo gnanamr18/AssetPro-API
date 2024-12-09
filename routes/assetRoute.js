@@ -1,11 +1,11 @@
 import express from "express";
 import { employeeValidation } from "../middleware/validationMiddleware.js";
 import { checkEmployeeExists } from "../middleware/checkMiddleware.js";
-import { createEmployee, resignEmployee } from "../controllers/employeeController.js";
+import { createAsset, resignEmployee } from "../controllers/assetController.js";
 
 const router = express.Router();
 
-router.post("/", employeeValidation, checkEmployeeExists, createEmployee);
+router.post("/", employeeValidation, checkEmployeeExists, createAsset);
 router.route("/:uniqueId").put(checkEmployeeExists, resignEmployee);
 
 

@@ -1,3 +1,5 @@
+import {getDeptByName,resignEmployeeByUniqueId} from "../service/employeeService"
+
 const createEmployee = async (req, res) => {
     try {
       const {uniqueId,name,designation,dept,status} = req.body;

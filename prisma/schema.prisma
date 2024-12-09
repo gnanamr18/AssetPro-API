@@ -50,7 +50,7 @@ model Asset {
   createdAt    DateTime @default(now())                 // Creation timestamp
   updatedAt    DateTime @updatedAt                     // Last update timestamp
 
-  employeeId   Int?                                      // Foreign key to Employee (nullable)
+  employeeId   Int?                                     // Foreign key to Employee (nullable)
   employee     Employee? @relation("EmployeeAssets", fields: [employeeId], references: [id]) // Relation to Employee
   dept         Dept     @relation("AssetDept",fields: [deptId], references: [id]) // Relation to Dept
   assetHistory AssetHistory[] @relation("HistoryAsset")

@@ -7,6 +7,7 @@ import deptRoute from "./routes/deptRoute.js";
 import employeeRoute from "./routes/employeeRoute.js"
 import assetRoute from "./routes/assetRoute.js"
 import issueAssetRoute from  "./routes/issueAssetRoute.js"
+import assetHistoryRoute from "./routes/assetHistoryRoute.js"
 
 
 const port = process.env.PORT || 8000;
@@ -30,6 +31,8 @@ app.use("/api/employee", employeeRoute);
 app.use("/api/asset", assetRoute);
 app.use("/api/issueAsset", issueAssetRoute);
 app.use("/api/returnAsset", returnAssetRoute);
+app.use("/api/assetHistory", assetHistoryRoute);
+
 
 
 

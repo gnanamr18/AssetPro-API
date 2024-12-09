@@ -1,3 +1,4 @@
+import { returnAssetToCpny } from "../service/returnAssetService";
 
 
 
@@ -8,7 +9,7 @@ const returnAsset = async (req, res) => {
 
 
   
-      const scrap = await makeReturnAsset(uniqueId);
+      const scrap = await returnAssetToCpny(uniqueId);
   
       res.status(201).json(scrap);
     } catch (error) {

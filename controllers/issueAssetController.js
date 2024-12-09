@@ -1,3 +1,4 @@
+import { issueAssetToEmployee } from "../service/issueAssetService";
 
 
 const issueAsset = async (req, res) => {
@@ -7,7 +8,7 @@ const issueAsset = async (req, res) => {
       const { employeeId } = req.body;
 
   
-      const scrap = await makeIssueAsset(uniqueId, employeeId);
+      const scrap = await issueAssetToEmployee(uniqueId, employeeId);
   
       res.status(201).json(scrap);
     } catch (error) {

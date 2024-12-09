@@ -29,4 +29,6 @@ const getAssetHistory = async (assetId) => {
       throw new Error("Error fetching asset history");
     }
   };
+
+  export{getAssetHistory}
   

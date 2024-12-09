@@ -6,6 +6,7 @@ dotenv.config();
 import deptRoute from "./routes/deptRoute.js";
 import employeeRoute from "./routes/employeeRoute.js"
 import assetRoute from "./routes/assetRoute.js"
+import issueAssetRoute from  "./routes/issueAssetRoute.js"
 
 
 const port = process.env.PORT || 8000;
@@ -27,6 +28,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/dept", deptRoute);
 app.use("/api/employee", employeeRoute);
 app.use("/api/asset", assetRoute);
+app.use("/api/issueAsset", issueAssetRoute);
+app.use("/api/returnAsset", returnAssetRoute);
+
 
 
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-import { returnAssetToCpny } from "../service/returnAssetService";
+import { returnAssetToCpny } from "../service/returnAssetService.js";
 
 
 

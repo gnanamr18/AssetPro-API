@@ -1,4 +1,4 @@
-import {getDeptByName,resignEmployeeByUniqueId} from "../service/employeeService"
+import {getDeptByName,resignEmployeeByUniqueId} from "../service/employeeService.js"
 
 const createEmployee = async (req, res) => {
     try {

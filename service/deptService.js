@@ -1,6 +1,6 @@
 import prisma from "../db/prisma.js";
 
-const addDept = async (dept, symbol) => {
+const makeAddDept = async (dept, symbol) => {
   try {
     const newDept = await prisma.dept.create({
       data: {
@@ -14,7 +14,7 @@ const addDept = async (dept, symbol) => {
   }
 };
 
-const deleteDept = async (symbol) => {
+const makeDeleteDept = async (symbol) => {
   try {
     const deletedDept = await prisma.dept.delete({
       where: { symbol },
@@ -28,7 +28,7 @@ const deleteDept = async (symbol) => {
   }
 };
 
-const findAsset = async () => {
+const makeFindAsset = async () => {
   try {
     const asset = await prisma.asset.findMany({
       where: { symbol },
@@ -42,7 +42,7 @@ const findAsset = async () => {
   }
 };
 
-const findEmployee = async () => {
+const makeFindEmployee = async () => {
   try {
     const employee = await prisma.asset.findMany({
       where: { symbol },
@@ -56,4 +56,4 @@ const findEmployee = async () => {
   }
 };
 
-export{addDept,deleteDept, findAsset, findEmployee}
+export{makeAddDept,makeDeleteDept, makeFindAsset, makeFindEmployee}

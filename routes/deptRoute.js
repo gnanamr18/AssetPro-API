@@ -1,7 +1,7 @@
 import express from "express";
 import { deptValidation } from "../middleware/validationMiddleware.js";
 import { checkDeptExists } from "../middleware/checkMiddleware.js";
-import { createDept } from "../controllers/deptController.js";
+import { createDept,deleteDept } from "../controllers/deptController.js";
 
 const router = express.Router();
 

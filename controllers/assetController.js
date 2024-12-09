@@ -1,4 +1,4 @@
-import { makeCreateAsset,makeScrapAsset } from "../service/assetService";
+import { makeCreateAsset,makeScrapAsset } from "../service/assetService.js";
 
 const createAsset = async (req, res) => {
     try {

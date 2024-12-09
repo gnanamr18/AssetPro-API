@@ -7,6 +7,7 @@ import deptRoute from "./routes/deptRoute.js";
 import employeeRoute from "./routes/employeeRoute.js"
 import assetRoute from "./routes/assetRoute.js"
 import issueAssetRoute from  "./routes/issueAssetRoute.js"
+import returnAssetRoute from "./routes/returnAssetRoute.js"
 import assetHistoryRoute from "./routes/assetHistoryRoute.js"
 
 

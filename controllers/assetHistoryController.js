@@ -1,3 +1,5 @@
+import prisma from "../db/prisma.js";
+
 const getAssetHistory = async (assetId) => {
     try {
       const history = await prisma.assetHistory.findMany({

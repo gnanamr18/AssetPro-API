@@ -1,4 +1,4 @@
-import { issueAssetToEmployee } from "../service/issueAssetService";
+import { issueAssetToEmployee } from "../service/issueAssetService.js";
 
 
 const issueAsset = async (req, res) => {

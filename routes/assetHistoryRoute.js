@@ -1,9 +1,9 @@
 import express from "express";
-import { getAssetHistory } from "../controllers/assetHistoryController";
+import { getAssetHistory } from "../controllers/assetHistoryController.js";
 
 const router = express.Router();
 
-router.route("/:uniqueId").get();
+router.route("/:uniqueId").get(getAssetHistory);
 
 
 

@@ -1,4 +1,5 @@
 
+import prisma from "../db/prisma.js";
 
 const issueAssetToEmployee = async (uniqueId, employeeId) => {
     try {

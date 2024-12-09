@@ -1,3 +1,5 @@
+import prisma from "../db/prisma.js";
+
 const returnAssetToCpny = async (uniqueId, employeeId) => {
   try {
     // Start a transaction to update Asset and create AssetHistory

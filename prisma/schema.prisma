@@ -68,14 +68,14 @@ model Dept {
 model AssetHistory {
   id           Int       @id @default(autoincrement())  // Auto-increment primary key
   uniqueId     String?                                      // Foreign key to Asset
-  employeeId   Int?                                     // Foreign key to Employee (nullable)
+  employeeId   String?                                     // Foreign key to Employee (nullable)
   action       HistoryAction                            // Action performed (purchased, assigned, returned, obsolete)
   actionDate   DateTime @default(now())                 // Timestamp of the action
   notes        String?                                  // Optional notes
   createdAt    DateTime @default(now())                 // Creation timestamp
 
   asset        Asset?     @relation( "HistoryAsset" ,fields: [uniqueId], references: [uniqueId]) // Relation to Asset
-  employee     Employee? @relation("HistoryEmployee",fields: [employeeId], references: [id]) // Relation to Employee (nullable)
+  employee     Employee? @relation("HistoryEmployee",fields: [employeeId], references: [uniqueId]) // Relation to Employee (nullable)
 }
 
 

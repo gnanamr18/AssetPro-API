@@ -12,6 +12,7 @@ const  issueAssetToEmployee = async (uniqueId, employeeId) => {
             employeeId, // Assign the employee to the asset
           },
         });
+        console.log(asset,"asset")
         // Create the asset history
         const assetHistory = await prisma.assetHistory.create({
           data: {

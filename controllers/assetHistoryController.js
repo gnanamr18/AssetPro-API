@@ -11,12 +11,12 @@ const getAssetHistory = async (req,res,next) => {
           actionDate: 'asc',  // Order by action date to get the sequence of events
         },
         include: {
-          // employee: {
-          //   select: {
-          //     id: true,
-          //     name: true,  // Only select the fields you need from the Employee
-          //   },
-          // },
+          employee: {
+            select: {
+              id: true,
+              name: true,  // Only select the fields you need from the Employee
+            },
+          },
           asset: {
             select: {
               id: true,

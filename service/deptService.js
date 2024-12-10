@@ -1,6 +1,6 @@
 import prisma from "../db/prisma.js";
 
-const makeAddDept = async (dept, symbol) => {
+const makeAddDept = async (dept, symbol,req,res) => {
   try {
     const newDept = await prisma.dept.create({
       data: {
@@ -14,12 +14,13 @@ const makeAddDept = async (dept, symbol) => {
   }
 };
 
-const makeDeleteDept = async (symbol) => {
+const makeDeleteDept = async (symbol,req,res) => {
   try {
     const deletedDept = await prisma.dept.delete({
       where: { symbol },
   });
-  return res.status(200).json({
+  console.log(deletedDept,"deleteDept")
+  return({
     message: "Department deleted successfully",
     data: deletedDept,
 });
@@ -31,7 +32,6 @@ const makeDeleteDept = async (symbol) => {
 const makeGetDept = async (req,res) => {
   try {
     const dept = await prisma.dept.findMany();
-    console.log(dept,"dept")
   return dept
   } catch (error) {
     res.status(500).json(error.message);
@@ -50,12 +50,12 @@ const makeFindAsset = async (req,res,next,symbol) => {
   }
 };
 
-const makeFindEmployee = async () => {
+const makeFindEmployee = async (req,res,next,symbol) => {
   try {
-    const employee = await prisma.asset.findMany({
-      where: { symbol },
+    const employee = await prisma.employee.findMany({
+      where: { dept:{symbol:symbol} },
   });
-  return res.status(200).json({
+  return({
     message: "Employees found successfully",
     data: employee,
 });

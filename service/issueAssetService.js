@@ -1,7 +1,7 @@
 
 import prisma from "../db/prisma.js";
 
-const issueAssetToEmployee = async (uniqueId, employeeId) => {
+const  issueAssetToEmployee = async (uniqueId, employeeId) => {
     try {
       // Start a transaction to update Asset and create AssetHistory
       const updatedAsset = await prisma.$transaction(async (prisma) => {
@@ -12,18 +12,21 @@ const issueAssetToEmployee = async (uniqueId, employeeId) => {
             employeeId, // Assign the employee to the asset
           },
         });
-  
         // Create the asset history
-        await prisma.assetHistory.create({
+        const assetHistory = await prisma.assetHistory.create({
           data: {
-            assetId: asset.id, // Link to the updated asset
-            action: "issued", // Action type for issuing
+            uniqueId,
+            employeeId, // Link to the updated asset
+            action: "assigned", // Action type for issuing
             notes: `Asset issued to employee ID: ${employeeId}`, // Add a meaningful note
           },
         });
+        console.log(assetHistory, "assetHistory")
+
   
         return asset; // Return the updated asset
       });
+      console.log(updatedAsset)
   
       return updatedAsset;
     } catch (error) {

@@ -3,22 +3,17 @@ import { makeAddDept, makeDeleteDept ,makeFindAsset,makeFindEmployee, makeGetDep
 const createDept = async (req, res) => {
   try {
     const { dept,symbol } = req.body;
-
-
     const newDept = await makeAddDept(dept,symbol);
-
     res.status(201).json(newDept);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const deleteDept = async (req, res) => {
+const deleteDept = async (req, res, next) => {
   try {
     const { symbol } = req.params;
-
     const Dept = await makeDeleteDept(symbol);
-
     res.status(201).json(Dept);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -49,13 +44,12 @@ const findAsset = async (req, res) => {
   }
 };
 
-const findEmployee = async (req, res) => {
+const findEmployee = async (req, res,next) => {
   try {
     const { symbol } = req.params;
 
     const employee = await makeFindEmployee(symbol);
-
-    res.status(201).json(employee);
+    res.status(200).json(employee);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

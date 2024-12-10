@@ -17,7 +17,7 @@ const makeCreateAsset = async (uniqueId, name, deptId, status) => {
       // Create the asset history
       await prisma.assetHistory.create({
         data: {
-          assetId: asset.id, // Link to the created asset
+          uniqueId: asset.uniqueId, // Link to the created asset
           action: "purchased", // Default action for new asset
           notes: "New asset created", // Optional note
         },

@@ -3,7 +3,7 @@ import {addEmployee,getDeptByName,resignEmployeeByUniqueId} from "../service/emp
 const createEmployee = async (req, res) => {
     try {
       const {uniqueId,name,designation,deptId,status} = req.body;  
-      const newEmployee = await addEmployee(uniqueId,name,designation,status,deptId);
+      const newEmployee = await addEmployee(uniqueId,name,designation,deptId, status,req,res);
   
       res.status(201).json(newEmployee);
     } catch (error) {

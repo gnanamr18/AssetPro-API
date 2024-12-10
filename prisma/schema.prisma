@@ -50,8 +50,8 @@ model Asset {
   createdAt    DateTime @default(now())                 // Creation timestamp
   updatedAt    DateTime @updatedAt                     // Last update timestamp
 
-  employeeId   Int?                                     // Foreign key to Employee (nullable)
-  employee     Employee? @relation("EmployeeAssets", fields: [employeeId], references: [id]) // Relation to Employee
+  employeeId   String?                                     // Foreign key to Employee (nullable)
+  employee     Employee? @relation("EmployeeAssets", fields: [employeeId], references: [uniqueId]) // Relation to Employee
   dept         Dept     @relation("AssetDept",fields: [deptId], references: [id]) // Relation to Dept
   assetHistory AssetHistory[] @relation("HistoryAsset")
 }
@@ -67,14 +67,14 @@ model Dept {
 
 model AssetHistory {
   id           Int       @id @default(autoincrement())  // Auto-increment primary key
-  assetId      Int                                      // Foreign key to Asset
+  uniqueId     String?                                      // Foreign key to Asset
   employeeId   Int?                                     // Foreign key to Employee (nullable)
   action       HistoryAction                            // Action performed (purchased, assigned, returned, obsolete)
   actionDate   DateTime @default(now())                 // Timestamp of the action
   notes        String?                                  // Optional notes
   createdAt    DateTime @default(now())                 // Creation timestamp
 
-  asset        Asset     @relation( "HistoryAsset" ,fields: [assetId], references: [id]) // Relation to Asset
+  asset        Asset?     @relation( "HistoryAsset" ,fields: [uniqueId], references: [uniqueId]) // Relation to Asset
   employee     Employee? @relation("HistoryEmployee",fields: [employeeId], references: [id]) // Relation to Employee (nullable)
 }
 

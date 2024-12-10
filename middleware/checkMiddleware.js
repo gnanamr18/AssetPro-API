@@ -6,8 +6,12 @@ const checkDeptExists = async (req, res, next) => {
     const dept = await prisma.dept.findFirst({
       where: { symbol },
     });
-    if (dept) {
+    if (!dept) {
       next();
+    }
+     if (dept && req.method === "DELETE") {
+      // If it's a DELETE request and the department exists, proceed with deletion
+       next();
     }
   } catch (error) {
     return res.status(500).json({
@@ -24,9 +28,6 @@ const checkEmployeeExists = async (req, res, next) => {
     const employee = await prisma.employee.findUnique({
       where: { uniqueId },
     });
-
-    console.log(employee, "employee");
-
     if (employee) {
       return res.status(400).json({
         message: "Employee already exists",

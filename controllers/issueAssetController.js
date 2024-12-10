@@ -8,9 +8,9 @@ const issueAsset = async (req, res) => {
       const { employeeId } = req.body;
 
   
-      const scrap = await issueAssetToEmployee(uniqueId, employeeId);
+      const assign = await issueAssetToEmployee(uniqueId, employeeId);
   
-      res.status(201).json(scrap);
+      res.status(201).json(assign);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

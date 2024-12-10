@@ -7,13 +7,16 @@ const returnAssetToCpny = async (uniqueId, employeeId) => {
       // Update the asset with the employee ID
       const asset = await prisma.asset.update({
         where: { uniqueId },
-        data: "CPNY", // Assign the employee to the asset
+        data: {
+          employeeId:null
+        }, // Assign the employee to the asset
       });
 
       // Create the asset history
       await prisma.assetHistory.create({
         data: {
-          assetId: asset.id, // Link to the updated asset
+          uniqueId,
+          employeeId:null,
           action: "returned", // Action type for issuing
           notes: `Asset returned to cpny`, // Add a meaningful note
         },

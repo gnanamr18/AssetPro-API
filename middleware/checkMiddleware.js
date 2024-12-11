@@ -6,12 +6,32 @@ const checkDeptExists = async (req, res, next) => {
     const dept = await prisma.dept.findFirst({
       where: { symbol },
     });
-    if (!dept) {
-      next();
+    if (req.method === "POST") {
+      if (!dept) {
+        return next();
+      } else {
+        return res.status(404).json({ message: "Dept Already exist" });
+      }
     }
-    if (dept && req.method === "DELETE") {
-      // If it's a DELETE request and the department exists, proceed with deletion
-      next();
+
+    // For Deletion (DELETE): Proceed only if the department exists
+    if (req.method === "DELETE") {
+      if (!dept) {
+        return res.status(404).json({
+          message: `Department with symbol '${symbol}' does not exist. Cannot delete.`,
+        });
+      }
+      return next();
+    }
+
+    // For Finding All (GET): Proceed only if the department exists
+    if (req.method === "GET") {
+      if (!dept) {
+        return res.status(404).json({
+          message: `Department with symbol '${symbol}' does not exist.`,
+        });
+      }
+      return next();
     }
   } catch (error) {
     return res.status(500).json({
@@ -42,27 +62,48 @@ const checkEmployeeExists = async (req, res, next) => {
   }
 };
 
-const checkAssetExits = async (req, res, next) => {
-  const  uniqueId  = req.body?.uniqueId || req.params?.uniqueId;
+const checkAssetExists = async (req, res, next) => {
+  const uniqueId = req.body?.uniqueId || req.params?.uniqueId;
+
   try {
-    // Check if the employee with the given uniqueId exists
+    // Check if the asset with the given uniqueId exists
     const asset = await prisma.asset.findUnique({
       where: { uniqueId },
     });
-    if (asset && req.method === "POST") {
-      return res.status(400).json({
-        message: "Asset already exists",
-      });
+
+    // Handle POST requests: Prevent creation if the asset already exists
+    if (req.method === "POST") {
+      if (asset) {
+        return res.status(400).json({
+          message: "Asset already exists",
+        });
+      }
+      return next(); // Proceed to create the new asset if it doesn't exist
     }
-    if (asset.status==="working" && req.method ==="PUT") {
-      return next()
+
+    // Handle PUT requests: Check asset's status
+    if (req.method === "PUT") {
+      if (!asset) {
+        return res.status(404).json({
+          message: `Asset with uniqueId '${uniqueId}' does not exist.`,
+        });
+      }
+
+      // Proceed if the asset's status is "working"
+      if (asset.status === "working") {
+        return next();
+      }
+
+      // Block updates if the asset's status is "obsolete"
+      if (asset.status === "obsolete") {
+        return res.status(400).json({
+          message: "Asset is already scrapped",
+        });
+      }
     }
-    if (asset.status==="obsolete" && req.method === "PUT") {
-      return res.status(400).json({
-        message: "Asset already Scraped",
-      });
-    }
-  next();
+
+    // For other methods, proceed as normal
+    return next();
   } catch (error) {
     return res.status(500).json({
       message: "Error checking asset existence",
@@ -71,20 +112,21 @@ const checkAssetExits = async (req, res, next) => {
   }
 };
 
+
 const checkAssetAssigned = async (req, res, next) => {
-  const { uniqueId } = req.params ;
+  const { uniqueId } = req.params;
 
   try {
     // Check if the employee with the given uniqueId exists
     const asset = await prisma.asset.findUnique({
       where: { uniqueId },
     });
-    if(asset && asset.employeeId !== null){
+    if (asset && asset.employeeId !== null) {
       return res.status(400).json({
         message: "Asset already assigned",
       });
-  }
-  next();
+    }
+    next();
   } catch (error) {
     return res.status(500).json({
       message: "Error checking asset existence",
@@ -122,7 +164,7 @@ const checkEmplyeeWorking = async (req, res, next) => {
 export {
   checkDeptExists,
   checkEmployeeExists,
-  checkAssetExits,
+  checkAssetExists,
   checkEmplyeeWorking,
-  checkAssetAssigned
+  checkAssetAssigned,
 };

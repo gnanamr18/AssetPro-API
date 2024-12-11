@@ -43,7 +43,7 @@ const deptValidation = (req, res, next) => {
     const schema = Joi.object({
         uniqueId: Joi.string().required(),
         name: Joi.string().required(),
-        deptId: Joi.number().integer().required(),
+        deptId: Joi.string().required(),
         status: Joi.string()
             .valid("working", "resigned", "obsolete")
             .default("working"),

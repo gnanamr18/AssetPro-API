@@ -19,7 +19,6 @@ const makeDeleteDept = async (symbol,req,res) => {
     const deletedDept = await prisma.dept.delete({
       where: { symbol },
   });
-  console.log(deletedDept,"deleteDept")
   return({
     message: "Department deleted successfully",
     data: deletedDept,
@@ -38,12 +37,12 @@ const makeGetDept = async (req,res) => {
   }
 };
 
-const makeFindAsset = async (req,res,next,symbol) => {
+const makeFindAsset = async (symbol,req,res,next) => {
   try {
+    console.log(symbol)
     const asset = await prisma.asset.findMany({
-      where: { symbol },
+      where: { deptId: symbol },
   });
-  console.log(asset,"asset")
   return asset
   } catch (error) {
     res.status(500).json(error.message);

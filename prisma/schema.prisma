@@ -30,13 +30,13 @@ model Employee {
   id           Int      @id @default(autoincrement()) // Auto-increment primary key
   uniqueId     String   @unique       // Globally unique identifier
   name         String                                   // Employee name
-  deptId       Int                                      // Foreign key to Dept
+  deptId       String                                      // Foreign key to Dept
   designation  String                                   // Employee designation
   status       Status   @default(working)               // Employment status (default: working)
   createdAt    DateTime @default(now())                 // Creation timestamp
   updatedAt    DateTime @updatedAt                      // Last update timestamp
 
-  dept         Dept     @relation("EmployeeDept",fields: [deptId], references: [id]) // Relation to Dept
+  dept         Dept  ?   @relation("EmployeeDept",fields: [deptId], references: [symbol]) // Relation to Dept
   assets       Asset[]  @relation("EmployeeAssets")     // One-to-many relationship with Asset
   assetHistory AssetHistory[] @relation("HistoryEmployee")
 }
@@ -45,21 +45,21 @@ model Asset {
   id           Int      @id @default(autoincrement())  // Auto-increment primary key
   uniqueId     String   @unique                       // Globally unique identifier
   name         String                                   // Asset name
-  deptId       Int                                      // Foreign key to Dept
+  deptId       String                                      // Foreign key to Dept
   status       Status   @default(working)               // Asset status
   createdAt    DateTime @default(now())                 // Creation timestamp
   updatedAt    DateTime @updatedAt                     // Last update timestamp
 
   employeeId   String?                                     // Foreign key to Employee (nullable)
   employee     Employee? @relation("EmployeeAssets", fields: [employeeId], references: [uniqueId]) // Relation to Employee
-  dept         Dept     @relation("AssetDept",fields: [deptId], references: [id]) // Relation to Dept
+  dept         Dept?     @relation("AssetDept",fields: [deptId], references: [symbol]) // Relation to Dept
   assetHistory AssetHistory[] @relation("HistoryAsset")
 }
 
 model Dept {
   id           Int      @id @default(autoincrement())  // Auto-increment primary key
   dept         String                                   // Department name
-  symbol       String   @unique                                // Department symbol
+  symbol       String?   @unique                                // Department symbol
 
   employees    Employee[] @relation("EmployeeDept")     // One-to-many relationship with Employee
   assets       Asset[]    @relation("AssetDept")        // One-to-many relationship with Asset

@@ -58,7 +58,7 @@ const resignEmployeeByUniqueId = async (uniqueId) => {
   try {
     // Find the employee by uniqueId and update their status to 'resigned'
     const updatedEmployee = await prisma.employee.update({
-      where: { uniqueId: uniqueId }, // Match the employee using their uniqueId
+      where: {uniqueId}, // Match the employee using their uniqueId
       data: {
         status: "resigned", // Update the status to 'resigned'
       },

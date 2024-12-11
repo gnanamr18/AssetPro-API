@@ -6,8 +6,6 @@ const issueAsset = async (req, res) => {
       const { uniqueId } = req.params;
 
       const { employeeId } = req.body;
-
-  
       const assign = await issueAssetToEmployee(uniqueId, employeeId);
   
       res.status(201).json(assign);

@@ -22,8 +22,7 @@ const makeCreateAsset = async (uniqueId, name, deptId, status) => {
           notes: "New asset created", // Optional note
         },
       });
-
-      return asset; // Return the created asset
+      return asset
     });
 
     return newAsset;
@@ -33,31 +32,31 @@ const makeCreateAsset = async (uniqueId, name, deptId, status) => {
 };
 
 
-const makeScrapAsset = async (uniqueId) => {
+const makeScrapAsset = async (uniqueId,req,res) => {
+  console.log(uniqueId,'service')
   try {
     // Use a transaction to ensure atomicity
     const updatedAsset = await prisma.$transaction(async (prisma) => {
       // Update the asset's status to 'obsolete'
       const asset = await prisma.asset.update({
-        where: { uniqueId: uniqueId },
+        where: { uniqueId },
         data: { 
           status: 'obsolete', 
         },
       });
-
       // Add an entry in the AssetHistory table
       await prisma.assetHistory.create({
         data: {
-          assetId: asset.id,       // Link the history to the asset
+          uniqueId: asset.uniqueId,       // Link the history to the asset
           action: 'obsolete',     // Mark the action as 'obsolete'
           notes: 'Asset scrapped', // Optional note
         },
       });
 
-      return asset; // Return the updated asset
+      return asset
     });
 
-    return updatedAsset; // Return the updated asset details
+    return updatedAsset
   } catch (error) {
     throw new Error(`Error scrapping asset: ${error.message}`);
   }

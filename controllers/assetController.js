@@ -17,7 +17,7 @@ const createAsset = async (req, res) => {
   const scrapAsset = async (req, res) => {
     try {
       const { uniqueId } = req.params;
-  
+        console.log(uniqueId,'controller')
       const scrap = await makeScrapAsset(uniqueId);
   
       res.status(201).json(scrap);

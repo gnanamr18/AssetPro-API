@@ -9,9 +9,9 @@ const checkDeptExists = async (req, res, next) => {
     if (!dept) {
       next();
     }
-     if (dept && req.method === "DELETE") {
+    if (dept && req.method === "DELETE") {
       // If it's a DELETE request and the department exists, proceed with deletion
-       next();
+      next();
     }
   } catch (error) {
     return res.status(500).json({
@@ -23,12 +23,11 @@ const checkDeptExists = async (req, res, next) => {
 
 const checkEmployeeExists = async (req, res, next) => {
   const uniqueId = req.body?.uniqueId || req.params?.uniqueId;
-  
   try {
     const employee = await prisma.employee.findUnique({
       where: { uniqueId },
     });
-    if (employee) {
+    if (employee && req.method === "POST") {
       return res.status(400).json({
         message: "Employee already exists",
       });
@@ -43,23 +42,27 @@ const checkEmployeeExists = async (req, res, next) => {
   }
 };
 
-
 const checkAssetExits = async (req, res, next) => {
-  const { uniqueId } = req.body || req.params;
-
+  const  uniqueId  = req.body?.uniqueId || req.params?.uniqueId;
   try {
     // Check if the employee with the given uniqueId exists
     const asset = await prisma.asset.findUnique({
       where: { uniqueId },
     });
-
-    if (asset) {
+    if (asset && req.method === "POST") {
       return res.status(400).json({
         message: "Asset already exists",
       });
     }
-
-    next();
+    if (asset.status==="working" && req.method ==="PUT") {
+      return next()
+    }
+    if (asset.status==="obsolete" && req.method === "PUT") {
+      return res.status(400).json({
+        message: "Asset already Scraped",
+      });
+    }
+  next();
   } catch (error) {
     return res.status(500).json({
       message: "Error checking asset existence",
@@ -68,4 +71,58 @@ const checkAssetExits = async (req, res, next) => {
   }
 };
 
-export { checkDeptExists, checkEmployeeExists, checkAssetExits };
+const checkAssetAssigned = async (req, res, next) => {
+  const { uniqueId } = req.params ;
+
+  try {
+    // Check if the employee with the given uniqueId exists
+    const asset = await prisma.asset.findUnique({
+      where: { uniqueId },
+    });
+    if(asset && asset.employeeId !== null){
+      return res.status(400).json({
+        message: "Asset already assigned",
+      });
+  }
+  next();
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error checking asset existence",
+      error: error.message,
+    });
+  }
+};
+
+const checkEmplyeeWorking = async (req, res, next) => {
+  const { employeeId } = req.body;
+  const uniqueId = employeeId;
+  try {
+    const employee = await prisma.employee.findUnique({
+      where: { uniqueId },
+    });
+    if (!employee) {
+      return res.status(400).json({
+        message: "Employee does not exist",
+      });
+    }
+    if (employee.status === "resigned") {
+      return res.status(400).json({
+        message: "Employee  Resigned",
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error checking asset existence",
+      error: error.message,
+    });
+  }
+};
+export {
+  checkDeptExists,
+  checkEmployeeExists,
+  checkAssetExits,
+  checkEmplyeeWorking,
+  checkAssetAssigned
+};

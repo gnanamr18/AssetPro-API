@@ -1,11 +1,11 @@
 import prisma from "../db/prisma.js";
 
-const makeAddDept = async (dept, symbol,req,res) => {
+const makeAddDept = async (dept, deptSymbol, req, res) => {
   try {
     const newDept = await prisma.dept.create({
       data: {
         dept,
-        symbol,
+        deptSymbol,
       },
     });
     return newDept;
@@ -14,53 +14,58 @@ const makeAddDept = async (dept, symbol,req,res) => {
   }
 };
 
-const makeDeleteDept = async (symbol,req,res) => {
+const makeDeleteDept = async (symbol, req, res) => {
   try {
     const deletedDept = await prisma.dept.delete({
       where: { symbol },
-  });
-  return({
-    message: "Department deleted successfully",
-    data: deletedDept,
-});
+    });
+    return {
+      message: "Department deleted successfully",
+      data: deletedDept,
+    };
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 
-const makeGetDept = async (req,res) => {
+const makeGetDept = async (req, res) => {
   try {
     const dept = await prisma.dept.findMany();
-  return dept
+    return dept;
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 
-const makeFindAsset = async (symbol,req,res,next) => {
+const makeFindAsset = async (deptSymbol, req, res, next) => {
   try {
-    console.log(symbol)
     const asset = await prisma.asset.findMany({
-      where: { deptId: symbol },
-  });
-  return asset
+      where: { deptSymbol },
+    });
+    return asset;
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 
-const makeFindEmployee = async (req,res,next,symbol) => {
+const makeFindEmployee = async (deptSymbol, req, res, next) => {
   try {
     const employee = await prisma.employee.findMany({
-      where: { dept:{symbol:symbol} },
-  });
-  return({
-    message: "Employees found successfully",
-    data: employee,
-});
+      where: { deptSymbol },
+    });
+    return {
+      message: "Employees found successfully",
+      data: employee,
+    };
   } catch (error) {
     res.status(500).json(error.message);
   }
 };
 
-export{makeAddDept,makeDeleteDept, makeFindAsset, makeFindEmployee , makeGetDept}
+export {
+  makeAddDept,
+  makeDeleteDept,
+  makeFindAsset,
+  makeFindEmployee,
+  makeGetDept,
+};

@@ -4,8 +4,7 @@ const addEmployee = async (
   uniqueId,
   name,
   designation,
-  deptId,
-  status,
+  deptSymbol,
   req,
   res,
   next
@@ -13,7 +12,7 @@ const addEmployee = async (
   try {
     // Check if the department exists
     const dept = await prisma.dept.findUnique({
-      where: { id: deptId },
+      where: {deptSymbol},
     });
     if (!dept) {
       return res.status(404).json({ message: "Department not found" });
@@ -25,8 +24,7 @@ const addEmployee = async (
         uniqueId,
         name,
         designation,
-        status,
-        deptId,
+        deptSymbol,
       },
     });
     if (nEmployee) {

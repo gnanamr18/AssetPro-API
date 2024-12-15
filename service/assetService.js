@@ -1,6 +1,6 @@
 import prisma from "../db/prisma.js";
 
-const makeCreateAsset = async (uniqueId, name, deptId, status,req,res,next) => {
+const makeCreateAsset = async (uniqueId, name, deptSymbol,req,res,next) => {
   try {
     // Start a transaction to create Asset and AssetHistory
     const newAsset = await prisma.$transaction(async (prisma) => {
@@ -9,10 +9,9 @@ const makeCreateAsset = async (uniqueId, name, deptId, status,req,res,next) => {
         data: {
           uniqueId,
           name,
-          deptId,
+          deptSymbol,
         },
       });
-
       // Create the asset history
       await prisma.assetHistory.create({
         data: {
@@ -32,7 +31,6 @@ const makeCreateAsset = async (uniqueId, name, deptId, status,req,res,next) => {
 
 
 const makeScrapAsset = async (uniqueId,req,res) => {
-  console.log(uniqueId,'service')
   try {
     // Use a transaction to ensure atomicity
     const updatedAsset = await prisma.$transaction(async (prisma) => {

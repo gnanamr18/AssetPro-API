@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post("/", deptValidation, checkDeptExists, createDept);
 router.route("/:symbol").delete(checkDeptExists, deleteDept);
-router.get("/asset/:symbol",  checkDeptExists, findAsset);
-router.get("/employee/:symbol", checkDeptExists, findEmployee)
+router.get("/asset/:deptSymbol",  checkDeptExists, findAsset);
+router.get("/employee/:deptSymbol", checkDeptExists, findEmployee)
 router.get("/",  getDept)
 
 

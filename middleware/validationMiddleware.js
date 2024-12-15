@@ -7,7 +7,7 @@ import Joi from 'joi';
 const deptValidation = (req, res, next) => {
     const schema = Joi.object({
       dept: Joi.string().required(),
-      symbol: Joi.string().required(),
+      deptSymbol: Joi.string().required(),
     });
     const { error, value } = schema.validate(req.body);
     if (error) {
@@ -23,7 +23,7 @@ const deptValidation = (req, res, next) => {
       const schema = Joi.object({
           uniqueId: Joi.string().required(),
           name: Joi.string().required(),
-          deptId: Joi.number().integer().required(),
+          deptSymbol: Joi.string().required(),
           designation: Joi.string().required(),
           status: Joi.string().valid("working", "resigned", "obsolete").default("working")      
       });
@@ -43,7 +43,7 @@ const deptValidation = (req, res, next) => {
     const schema = Joi.object({
         uniqueId: Joi.string().required(),
         name: Joi.string().required(),
-        deptId: Joi.string().required(),
+        deptSymbol: Joi.string().required(),
         status: Joi.string()
             .valid("working", "resigned", "obsolete")
             .default("working"),

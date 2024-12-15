@@ -2,10 +2,10 @@ import { makeCreateAsset,makeScrapAsset } from "../service/assetService.js";
 
 const createAsset = async (req, res) => {
     try {
-      const { uniqueId,name,deptId,status } = req.body;
+      const { uniqueId,name,deptSymbol,status } = req.body;
+
   
-  
-      const newAsset = await makeCreateAsset(uniqueId,name,deptId,status);
+      const newAsset = await makeCreateAsset(uniqueId,name,deptSymbol,status);
   
       res.status(201).json(newAsset);
     } catch (error) {
@@ -17,7 +17,6 @@ const createAsset = async (req, res) => {
   const scrapAsset = async (req, res) => {
     try {
       const { uniqueId } = req.params;
-        console.log(uniqueId,'controller')
       const scrap = await makeScrapAsset(uniqueId);
   
       res.status(201).json(scrap);

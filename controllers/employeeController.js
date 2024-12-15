@@ -2,8 +2,8 @@ import {addEmployee,getDeptByName,resignEmployeeByUniqueId} from "../service/emp
 
 const createEmployee = async (req, res) => {
     try {
-      const {uniqueId,name,designation,deptId,status} = req.body;  
-      const newEmployee = await addEmployee(uniqueId,name,designation,deptId, status,req,res);
+      const {uniqueId,name,designation,deptSymbol,status} = req.body;  
+      const newEmployee = await addEmployee(uniqueId,name,designation,deptSymbol, status);
   
       res.status(201).json(newEmployee);
     } catch (error) {
@@ -16,7 +16,7 @@ const createEmployee = async (req, res) => {
   const resignEmployee = async (req, res) => {
     try {
       const { uniqueId } = req.params;
-  
+      
       const employee = await resignEmployeeByUniqueId(uniqueId);
   
       res.status(201).json(employee);

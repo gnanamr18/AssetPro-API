@@ -1,11 +1,11 @@
 import prisma from "../db/prisma.js";
 
 const checkDeptExists = async (req, res, next) => {
-  const symbol = req.body?.symbol || req.params?.symbol;
+  const deptSymbol = req.body?.deptSymbol || req.params?.deptSymbol;
   try {
     const dept = await prisma.dept.findFirst({
-      where: { symbol },
-    });
+      where: { deptSymbol },
+    }); 
     if (req.method === "POST") {
       if (!dept) {
         return next();
@@ -43,6 +43,7 @@ const checkDeptExists = async (req, res, next) => {
 
 const checkEmployeeExists = async (req, res, next) => {
   const uniqueId = req.body?.uniqueId || req.params?.uniqueId;
+  console.log(uniqueId,'checkM')
   try {
     const employee = await prisma.employee.findUnique({
       where: { uniqueId },

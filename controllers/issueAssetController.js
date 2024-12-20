@@ -1,4 +1,4 @@
-import { issueAssetToEmployee } from "../service/issueAssetService.js";
+import { getALLIssueAssets, issueAssetToEmployee } from "../service/issueAssetService.js";
 
 
 const issueAsset = async (req, res) => {
@@ -14,4 +14,15 @@ const issueAsset = async (req, res) => {
     }
   };
 
-  export {issueAsset}
+  const getIssueAssets = async (req, res) => {
+    try {
+
+      const assign = await getALLIssueAssets();
+  
+      res.status(201).json(assign);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  export {issueAsset,getIssueAssets}

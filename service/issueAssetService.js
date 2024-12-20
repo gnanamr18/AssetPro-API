@@ -30,4 +30,13 @@ const issueAssetToEmployee = async (uniqueId, employeeId) => {
   }
 };
 
-export { issueAssetToEmployee };
+const getALLIssueAssets = async (req, res) => {
+  try {
+    const dept = await prisma.assetHistory.findMany();
+    return dept;
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+export { issueAssetToEmployee, getALLIssueAssets};

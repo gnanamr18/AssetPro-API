@@ -29,14 +29,18 @@ const issueAssetToEmployee = async (uniqueId, employeeId) => {
     throw new Error(`Error issuing asset: ${error.message}`);
   }
 };
-
-const getALLIssueAssets = async (req, res) => {
+const getALLIssueAssets = async () => {
   try {
-    const dept = await prisma.assetHistory.findMany();
-    return dept;
+    const dept = await prisma.assetHistory.findMany({
+      orderBy: {
+        actionDate: "desc", // Order by action date to get the sequence of events
+      },
+    });
+
+    return dept; // Send response if `res` is available
   } catch (error) {
-    res.status(500).json(error.message);
+    return error
   }
 };
 
-export { issueAssetToEmployee, getALLIssueAssets};
+export { issueAssetToEmployee, getALLIssueAssets };

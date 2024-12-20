@@ -14,7 +14,7 @@ const issueAsset = async (req, res) => {
     }
   };
 
-  const getIssueAssets = async (req, res) => {
+  const getIssueAssets = async (req, res,next) => {
     try {
 
       const assign = await getALLIssueAssets();

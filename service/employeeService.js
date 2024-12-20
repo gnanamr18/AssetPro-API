@@ -28,13 +28,10 @@ const addEmployee = async (
       },
     });
     if (nEmployee) {
-      return res.status(201).json(nEmployee);
+      return nEmployee;
     } // Return the created employee
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ message: "Error adding employee", error: error.message });
+    return error
   }
 };
 

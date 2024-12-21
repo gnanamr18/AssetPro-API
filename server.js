@@ -32,6 +32,10 @@ app.use("/api/issueAsset", issueAssetRoute);
 app.use("/api/returnAsset", returnAssetRoute);
 app.use("/api/assetHistory", assetHistoryRoute);
 
+app.get("/", (req, res, next) => {
+  res.send("server is live now...");
+});
+
 app.listen(port, () => {
   console.log("Server running in " + port);
 });

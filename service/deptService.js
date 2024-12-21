@@ -33,7 +33,7 @@ const makeGetDept = async (req, res) => {
     const dept = await prisma.dept.findMany();
     return dept;
   } catch (error) {
-    res.status(500).json(error.message);
+   return error
   }
 };
 

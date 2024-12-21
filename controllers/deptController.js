@@ -23,6 +23,7 @@ const deleteDept = async (req, res, next) => {
 const getDept = async (req, res) => {
   try {
 
+    console.log('first')
     const Dept = await makeGetDept();
 
     res.status(200).json(Dept);
